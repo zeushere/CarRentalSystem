@@ -9,9 +9,9 @@ public class User {
 
     private static final List<User> USER_LIST = new ArrayList<>();
     private final String name;
+    private final String lastName;
     private final String email;
     private final String password;
-    private final String lastName;
 
     private User(String name, String lastName, String email, String password) {
         this.name = name;
@@ -43,7 +43,7 @@ public class User {
         return email;
     }
 
-    private static boolean existsByEmail(String email) {
+    private static Boolean existsByEmail(String email) {
         return USER_LIST
                 .stream()
                 .anyMatch(user -> email.equals(user.getEmail()));

@@ -37,7 +37,7 @@ public class Discount {
         return 1 - Double.parseDouble(foundDiscount.discountPercent.replace("%", "")) / 100;
     }
 
-    private boolean validateDiscount(String discountCode, String discountPercent) {
+    private Boolean validateDiscount(String discountCode, String discountPercent) {
         if (!(isNotBlank(discountCode) && isNotBlank(discountPercent)
                 && discountPercent.matches("\\d+(?:\\.\\d+)?%")
                 && Double.parseDouble(discountPercent.replace("%", "")) > 0)) {

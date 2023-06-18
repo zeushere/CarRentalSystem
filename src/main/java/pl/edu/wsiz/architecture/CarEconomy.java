@@ -4,7 +4,7 @@ public class CarEconomy extends Car {
 
     public CarEconomy(String brand, String model, Integer year, Double pricePerDay, CarRental carRental) {
         super(brand, model, year, pricePerDay, carRental);
-        type = CarType.ECONOMY;
+        this.type = CarType.ECONOMY;
     }
 
     @Override

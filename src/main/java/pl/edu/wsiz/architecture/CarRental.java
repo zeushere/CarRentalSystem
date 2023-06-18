@@ -9,10 +9,10 @@ import java.time.temporal.ChronoUnit;
 
 public abstract class CarRental {
 
-    protected LocalDate endRental;
+    private final LocalDate endRental;
+    private final String optionalDiscountCode;
+    private final User user;
 
-    protected String optionalDiscountCode;
-    protected User user;
     protected CarRentalType type;
     protected Double price;
     protected Long numberOfDays;
@@ -25,7 +25,7 @@ public abstract class CarRental {
         this.optionalDiscountCode = optionalDiscountCode;
     }
 
-    protected void rent(Double carPrice) {
+    protected void rent(Double price) {
         System.out.println("Start " + type + " process rental...");
         carRentalActive = true;
 
@@ -34,9 +34,9 @@ public abstract class CarRental {
         Double discount;
         if (optionalDiscountCode != null) {
             discount = calculateDiscount(optionalDiscountCode);
-            setPrice(resolvePriceWithConverter(carPrice) * discount);
+            setPrice(resolvePriceWithConverter(price) * discount);
         } else {
-            setPrice(resolvePriceWithConverter(carPrice));
+            setPrice(resolvePriceWithConverter(price));
         }
 
         System.out.println("User with email: " + user.getEmail() +
@@ -53,7 +53,7 @@ public abstract class CarRental {
         System.out.println("Rental is not active!");
     }
 
-    protected abstract Double resolvePriceWithConverter(Double carPricePerDay);
+    protected abstract Double resolvePriceWithConverter(Double carPrice);
 
     private Double calculateDiscount(String optionalDiscountCode) {
         if (optionalDiscountCode != null) {
@@ -66,8 +66,8 @@ public abstract class CarRental {
         this.price = Math.round(price * 100) / 100.0;
     }
 
-    private void validateCarRental(LocalDate localDate, User user) {
-        if (ObjectUtils.anyNull(localDate, user)) {
+    private void validateCarRental(LocalDate endRental, User user) {
+        if (ObjectUtils.anyNull(endRental, user)) {
             System.out.println("Invalid car rental data!");
             System.exit(0);
         }

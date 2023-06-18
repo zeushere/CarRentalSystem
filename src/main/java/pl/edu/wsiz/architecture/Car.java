@@ -1,7 +1,7 @@
 package pl.edu.wsiz.architecture;
 
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
+import static org.apache.commons.lang3.ObjectUtils.allNotNull;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 public abstract class Car {
     protected CarRental carRental;
@@ -22,7 +22,7 @@ public abstract class Car {
         }
     }
 
-    protected boolean checkAvailability() {
+    protected Boolean checkAvailability() {
         if (!isAvailable) {
             System.out.println("Car with type " + this.type + " is not available!");
             return false;
@@ -35,7 +35,7 @@ public abstract class Car {
     public void releaseCar() {
         if (!isAvailable && carRental.carRentalActive) {
 
-            System.out.println("Releasing car with type " + this.getType());
+            System.out.println("Releasing car with type " + this.type);
             carRental.cancel();
             this.isAvailable = true;
             return;
@@ -48,18 +48,14 @@ public abstract class Car {
         this.carRental = carRental;
     }
 
-    protected CarType getType() {
-        return type;
-    }
+    public abstract void rent();
 
-    private boolean validateCar(String brand, String model, Integer year, Double pricePerDay) {
-        if (!(StringUtils.isNotBlank(brand) && StringUtils.isNotBlank(model) && ObjectUtils.allNotNull(year, pricePerDay)
+    private Boolean validateCar(String brand, String model, Integer year, Double pricePerDay) {
+        if (!(isNotBlank(brand) && isNotBlank(model) && allNotNull(year, pricePerDay)
                 && pricePerDay > 0 && year > 0)) {
             System.out.println("Invalid car data!");
             return false;
         }
         return true;
     }
-
-    public abstract void rent();
 }

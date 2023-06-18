@@ -4,7 +4,7 @@ public class CarLuxury extends Car {
 
     public CarLuxury(String brand, String model, Integer year, Double pricePerDay, CarRental carRental) {
         super(brand, model, year, pricePerDay, carRental);
-        type = CarType.LUXURY;
+        this.type = CarType.LUXURY;
     }
 
     @Override

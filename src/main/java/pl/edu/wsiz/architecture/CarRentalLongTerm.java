@@ -13,7 +13,7 @@ public class CarRentalLongTerm extends CarRental {
     }
 
     @Override
-    protected Double resolvePriceWithConverter(Double carPrice) {
-        return this.price = (carPrice * 0.9) * numberOfDays;
+    protected Double resolvePriceWithConverter(Double price) {
+        return this.price = (price * 0.9) * numberOfDays;
     }
 }

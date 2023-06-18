@@ -4,7 +4,7 @@ import pl.edu.wsiz.util.User;
 
 import java.time.LocalDate;
 
-public class CarRentalProvider extends Provider {
+public class CarRentalProvider implements Provider {
 
     @Override
     public CarRental createCarRental(CarRentalType carRentalType, LocalDate endRental, User user, String optionalDiscountCode) {
