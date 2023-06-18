@@ -1,9 +1,10 @@
-package pl.edu.wsiz.car;
+package pl.edu.wsiz.bridge;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 public abstract class Car {
+    protected CarRental carRental;
     protected CarType type;
     protected String brand;
     protected String model;
@@ -11,16 +12,21 @@ public abstract class Car {
     protected Double pricePerDay;
     protected Boolean isAvailable = true;
 
-    protected Car(String brand, String model, Integer year, Double pricePerDay) {
+    protected Car(String brand, String model, Integer year, Double pricePerDay, CarRental carRental) {
         if (validateCar(brand, model, year, pricePerDay)) {
             this.brand = brand;
             this.model = model;
             this.year = year;
             this.pricePerDay = pricePerDay;
+            this.carRental = carRental;
         }
     }
 
-    public boolean checkAvailability() {
+    public void setCarRental(CarRental carRental) {
+        this.carRental = carRental;
+    }
+
+    protected boolean checkAvailability() {
         if (!isAvailable) {
             System.out.println("Car with type " + this.type + " is not available!");
             return false;
@@ -31,16 +37,19 @@ public abstract class Car {
     }
 
     public void releaseCar() {
-        System.out.println("Releasing car with type " + this.getType());
-        this.isAvailable = true;
+        if (!isAvailable && carRental.carRentalActive) {
+
+            System.out.println("Releasing car with type " + this.getType());
+            carRental.cancel();
+            this.isAvailable = true;
+            return;
+        }
+
+        System.out.println("Cannot release car!");
     }
 
-    public CarType getType() {
+    protected CarType getType() {
         return type;
-    }
-
-    public Double getPricePerDay() {
-        return pricePerDay;
     }
 
     private boolean validateCar(String brand, String model, Integer year, Double pricePerDay) {

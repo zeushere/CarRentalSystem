@@ -21,7 +21,7 @@ public class Discount {
         DISCOUNT_LIST.add(this);
     }
 
-    public static Double getDiscountByRabatCode(String discountCode) {
+    public static Double getDiscountByDiscountCode(String discountCode) {
         Discount foundDiscount = DISCOUNT_LIST
                 .stream()
                 .filter(discount -> discountCode.equals(discount.discountCode))

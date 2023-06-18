@@ -1,0 +1,22 @@
+package pl.edu.wsiz.bridge;
+
+public class CarLuxury extends Car {
+
+    public CarLuxury(String brand, String model, Integer year, Double pricePerDay, CarRental carRental) {
+        super(brand, model, year, pricePerDay, carRental);
+        type = CarType.CAR_LUXURY;
+    }
+
+    @Override
+    public void rent() {
+        if (checkAvailability() && !carRental.carRentalActive) {
+            this.isAvailable = false;
+
+            carRental.rent(pricePerDay);
+
+            System.out.println("Car Luxury" + " with brand: " + this.brand + ", model: " + this.model +
+                    ", year: " + this.year + " and price per day: " + this.pricePerDay + " PLN was rented.");
+        } else
+            System.out.println("Cannot process rent!");
+    }
+}

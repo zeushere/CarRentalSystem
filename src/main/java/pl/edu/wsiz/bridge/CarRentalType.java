@@ -1,4 +1,4 @@
-package pl.edu.wsiz.rental;
+package pl.edu.wsiz.bridge;
 
 public enum CarRentalType {
 

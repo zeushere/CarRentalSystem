@@ -1,7 +1,5 @@
 package pl.edu.wsiz.util;
 
-import pl.edu.wsiz.car.Car;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,52 +8,44 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 public class User {
 
     private static final List<User> USER_LIST = new ArrayList<>();
-    private static final List<Car> CAR_LIST = new ArrayList<>();
     private final String name;
-    private final String login;
+    private final String email;
     private final String password;
     private final String lastName;
 
-    private User(String name, String lastName, String login, String password) {
+    private User(String name, String lastName, String email, String password) {
         this.name = name;
         this.lastName = lastName;
-        this.login = login;
+        this.email = email;
         this.password = password;
     }
 
-    public static User registerUser(String name, String lastName, String login, String password) {
-        if (isBlank(name) || isBlank(lastName) || isBlank(login) || isBlank(password)) {
-            System.out.println("All user data must not be blank!");
+    public static User registerUser(String name, String lastName, String email, String password) {
+        if (isBlank(name) || isBlank(lastName) || isBlank(email) || isBlank(password)
+                || !email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+            System.out.println("All user data must be valid!");
             return null;
         }
 
-        if (existsByLogin(login)) {
-            System.out.println("Login " + login + " is busy!");
+        if (existsByEmail(email)) {
+            System.out.println("Email " + email + " is busy!");
             return null;
         }
 
-        User user = new User(name, lastName, login, password);
+        User user = new User(name, lastName, email, password);
         USER_LIST.add(user);
 
-        System.out.println("Successfully register user with login " + login);
+        System.out.println("Successfully register user with email " + email);
         return user;
     }
 
-    public void addCarToList(Car car) {
-        CAR_LIST.add(car);
+    public String getEmail() {
+        return email;
     }
 
-    public void deleteCarFromList(Car car) {
-        CAR_LIST.remove(car);
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    private static boolean existsByLogin(String login) {
+    private static boolean existsByEmail(String email) {
         return USER_LIST
                 .stream()
-                .anyMatch(user -> login.equals(user.getLogin()));
+                .anyMatch(user -> email.equals(user.getEmail()));
     }
 }

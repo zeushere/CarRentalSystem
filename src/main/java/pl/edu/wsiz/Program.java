@@ -1,18 +1,21 @@
 package pl.edu.wsiz;
 
 
-import pl.edu.wsiz.car.Car;
-import pl.edu.wsiz.car.CarType;
-import pl.edu.wsiz.provider.CarProvider;
-import pl.edu.wsiz.provider.Provider;
-import pl.edu.wsiz.rental.CarRental;
-import pl.edu.wsiz.rental.CarRentalLongTerm;
-import pl.edu.wsiz.rental.CarRentalShortTerm;
+import pl.edu.wsiz.bridge.Car;
+import pl.edu.wsiz.bridge.CarDelivery;
+import pl.edu.wsiz.bridge.CarEconomy;
+import pl.edu.wsiz.bridge.CarFamily;
+import pl.edu.wsiz.bridge.CarLuxury;
+import pl.edu.wsiz.bridge.CarRental;
+import pl.edu.wsiz.factorymethod.CarRentalProvider;
+import pl.edu.wsiz.factorymethod.Provider;
 import pl.edu.wsiz.util.Discount;
 import pl.edu.wsiz.util.User;
 
 import java.time.LocalDate;
 
+import static pl.edu.wsiz.bridge.CarRentalType.CAR_RENTAL_LONG_TERM;
+import static pl.edu.wsiz.bridge.CarRentalType.CAR_RENTAL_SHORT_TERM;
 import static pl.edu.wsiz.util.User.registerUser;
 
 public class Program {
@@ -21,6 +24,9 @@ public class Program {
         System.out.println("---------------------------------------");
         System.out.println("Welcome to CarRentalSystem Application!");
         System.out.println("---------------------------------------");
+
+        //creating provider(factory method)
+        Provider provider = new CarRentalProvider();
 
         //loading initial data of discounts
         addInitialDiscounts();
@@ -32,54 +38,58 @@ public class Program {
         System.out.println("---------------------------------------");
 
         //user registration
-        User userKacper = registerUser("Kacper", "Roda", "kacper.roda", "Kacper123");
-        User userWojciech = registerUser("Wojciech", "Nowak", "wojciech.nowak", "Wojciech123");
-        User userDaria = registerUser("Daria", "Kowalska", "daria.kowalska", "Daria123");
+        User userKacper = registerUser("Kacper", "Roda", "kacper.roda@wp.pl", "Kacper123");
+        User userWojciech = registerUser("Wojciech", "Nowak", "wojciech.nowak@onet.pl", "Wojciech123");
+        User userDaria = registerUser("Daria", "Kowalska", "daria.kowalska@gmail.com", "Daria123");
 
         System.out.println("---------------------------------------");
 
         //validation of registration process
-        registerUser("Invalid", "User", "kacper.roda", "Kacper123");
+        registerUser("Invalid", "User", "kacper.roda@wp.pl", "Kacper123");
         registerUser("Invalid", "User", "", "Kacper123");
 
         System.out.println("---------------------------------------");
 
-        //creating cars by provider(factory method)
-        Provider provider = new CarProvider();
-        Car firstCar = provider.createCar(CarType.CAR_ECONOMY, "Opel", "Insignia", 2009, 50.0);
-        Car secondCar = provider.createCar(CarType.CAR_FAMILY, "Volkswagen", "Touran", 2007, 40.0);
-
-        //validation of creating cars
-        provider.createCar(CarType.CAR_DELIVERY, "", "", 2011, 32.0);
-
+        //long term renting car with discount
+        CarRental firstCarRental = provider.createCarRental(CAR_RENTAL_LONG_TERM, LocalDate.of(2023, 7, 31), userKacper, "SPRING");
+        Car firstCar = new CarEconomy("Opel", "Insignia", 2009, 25.00, firstCarRental);
+        firstCar.rent();
         System.out.println("---------------------------------------");
 
-        //creating long term rental with discount
-        CarRental firstCarRental = new CarRentalLongTerm(firstCar, LocalDate.of(2023, 7, 15), userKacper);
-        firstCarRental.rentCar("SPRING");
+        //validation of creating cars
+        new CarDelivery("", "", 2011, 32.00, firstCarRental);
 
         System.out.println("---------------------------------------");
 
         //trying to rent not available car
-        CarRental secondCarRental = new CarRentalShortTerm(firstCar, LocalDate.of(2023, 6, 26), userDaria);
-        secondCarRental.rentCar("SUMMER");
+        CarRental secondCarRental = provider.createCarRental(CAR_RENTAL_SHORT_TERM, LocalDate.of(2023, 7, 1), userWojciech, null);
+        firstCar.setCarRental(secondCarRental);
+        firstCar.rent();
 
         System.out.println("---------------------------------------");
 
-        //cancelling rent
-        firstCarRental.cancelRent();
+        //releasing car
+        firstCar.setCarRental(firstCarRental);
+        firstCar.releaseCar();
 
         System.out.println("---------------------------------------");
 
-
-        //renting after cancel rent
-        secondCarRental.rentCar("SUMMER");
+        //short term renting car without discount
+        firstCar.setCarRental(secondCarRental);
+        firstCar.rent();
 
         System.out.println("---------------------------------------");
 
-        //renting without discount
-        CarRental thirdCarRental = new CarRentalLongTerm(secondCar, LocalDate.of(2023, 7, 26), userWojciech);
-        thirdCarRental.rentCar();
+        //long term renting car with invalid discount
+        CarRental thirdCarRental = provider.createCarRental(CAR_RENTAL_LONG_TERM, LocalDate.of(2023, 8, 12), userDaria, "invalid");
+        Car secondCar = new CarLuxury("Porsche", "Panamera", 2016, 45.00, thirdCarRental);
+        secondCar.rent();
+        System.out.println("---------------------------------------");
+
+        //short term renting car with discount
+        CarRental fourthCarRental = provider.createCarRental(CAR_RENTAL_SHORT_TERM, LocalDate.of(2023, 7, 2), userDaria, "SUMMER");
+        Car thirdCar = new CarFamily("Volkswagen", "Touran", 2007, 35.00, fourthCarRental);
+        thirdCar.rent();
         System.out.println("---------------------------------------");
     }
 

@@ -1,4 +1,4 @@
-package pl.edu.wsiz.car;
+package pl.edu.wsiz.bridge;
 
 public enum CarType {
 
