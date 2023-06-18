@@ -1,7 +1,5 @@
-package pl.edu.wsiz.factorymethod;
+package pl.edu.wsiz.architecture;
 
-import pl.edu.wsiz.bridge.CarRental;
-import pl.edu.wsiz.bridge.CarRentalType;
 import pl.edu.wsiz.util.User;
 
 import java.time.LocalDate;

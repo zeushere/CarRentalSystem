@@ -1,21 +1,21 @@
 package pl.edu.wsiz;
 
 
-import pl.edu.wsiz.bridge.Car;
-import pl.edu.wsiz.bridge.CarDelivery;
-import pl.edu.wsiz.bridge.CarEconomy;
-import pl.edu.wsiz.bridge.CarFamily;
-import pl.edu.wsiz.bridge.CarLuxury;
-import pl.edu.wsiz.bridge.CarRental;
-import pl.edu.wsiz.factorymethod.CarRentalProvider;
-import pl.edu.wsiz.factorymethod.Provider;
+import pl.edu.wsiz.architecture.Car;
+import pl.edu.wsiz.architecture.CarDelivery;
+import pl.edu.wsiz.architecture.CarEconomy;
+import pl.edu.wsiz.architecture.CarFamily;
+import pl.edu.wsiz.architecture.CarLuxury;
+import pl.edu.wsiz.architecture.CarRental;
+import pl.edu.wsiz.architecture.CarRentalProvider;
+import pl.edu.wsiz.architecture.Provider;
 import pl.edu.wsiz.util.Discount;
 import pl.edu.wsiz.util.User;
 
 import java.time.LocalDate;
 
-import static pl.edu.wsiz.bridge.CarRentalType.CAR_RENTAL_LONG_TERM;
-import static pl.edu.wsiz.bridge.CarRentalType.CAR_RENTAL_SHORT_TERM;
+import static pl.edu.wsiz.architecture.CarRentalType.LONG_TERM;
+import static pl.edu.wsiz.architecture.CarRentalType.SHORT_TERM;
 import static pl.edu.wsiz.util.User.registerUser;
 
 public class Program {
@@ -51,7 +51,7 @@ public class Program {
         System.out.println("---------------------------------------");
 
         //long term renting car with discount
-        CarRental firstCarRental = provider.createCarRental(CAR_RENTAL_LONG_TERM, LocalDate.of(2023, 7, 31), userKacper, "SPRING");
+        CarRental firstCarRental = provider.createCarRental(LONG_TERM, LocalDate.of(2023, 7, 31), userKacper, "SPRING");
         Car firstCar = new CarEconomy("Opel", "Insignia", 2009, 25.00, firstCarRental);
         firstCar.rent();
         System.out.println("---------------------------------------");
@@ -62,7 +62,7 @@ public class Program {
         System.out.println("---------------------------------------");
 
         //trying to rent not available car
-        CarRental secondCarRental = provider.createCarRental(CAR_RENTAL_SHORT_TERM, LocalDate.of(2023, 7, 1), userWojciech, null);
+        CarRental secondCarRental = provider.createCarRental(SHORT_TERM, LocalDate.of(2023, 7, 1), userWojciech, null);
         firstCar.setCarRental(secondCarRental);
         firstCar.rent();
 
@@ -81,13 +81,13 @@ public class Program {
         System.out.println("---------------------------------------");
 
         //long term renting car with invalid discount
-        CarRental thirdCarRental = provider.createCarRental(CAR_RENTAL_LONG_TERM, LocalDate.of(2023, 8, 12), userDaria, "invalid");
+        CarRental thirdCarRental = provider.createCarRental(LONG_TERM, LocalDate.of(2023, 8, 12), userDaria, "invalid");
         Car secondCar = new CarLuxury("Porsche", "Panamera", 2016, 45.00, thirdCarRental);
         secondCar.rent();
         System.out.println("---------------------------------------");
 
         //short term renting car with discount
-        CarRental fourthCarRental = provider.createCarRental(CAR_RENTAL_SHORT_TERM, LocalDate.of(2023, 7, 2), userDaria, "SUMMER");
+        CarRental fourthCarRental = provider.createCarRental(SHORT_TERM, LocalDate.of(2023, 7, 2), userDaria, "SUMMER");
         Car thirdCar = new CarFamily("Volkswagen", "Touran", 2007, 35.00, fourthCarRental);
         thirdCar.rent();
         System.out.println("---------------------------------------");

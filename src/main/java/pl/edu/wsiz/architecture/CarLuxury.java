@@ -1,10 +1,10 @@
-package pl.edu.wsiz.bridge;
+package pl.edu.wsiz.architecture;
 
-public class CarFamily extends Car {
+public class CarLuxury extends Car {
 
-    public CarFamily(String brand, String model, Integer year, Double pricePerDay, CarRental carRental) {
+    public CarLuxury(String brand, String model, Integer year, Double pricePerDay, CarRental carRental) {
         super(brand, model, year, pricePerDay, carRental);
-        type = CarType.CAR_FAMILY;
+        type = CarType.LUXURY;
     }
 
     @Override
@@ -14,7 +14,7 @@ public class CarFamily extends Car {
 
             carRental.rent(pricePerDay);
 
-            System.out.println("Car Family" + " with brand: " + this.brand + ", model: " + this.model +
+            System.out.println("Car Luxury" + " with brand: " + this.brand + ", model: " + this.model +
                     ", year: " + this.year + " and price per day: " + this.pricePerDay + " PLN was rented.");
         } else
             System.out.println("Cannot process rent!");

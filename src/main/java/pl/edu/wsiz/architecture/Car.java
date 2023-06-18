@@ -1,4 +1,4 @@
-package pl.edu.wsiz.bridge;
+package pl.edu.wsiz.architecture;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -22,10 +22,6 @@ public abstract class Car {
         }
     }
 
-    public void setCarRental(CarRental carRental) {
-        this.carRental = carRental;
-    }
-
     protected boolean checkAvailability() {
         if (!isAvailable) {
             System.out.println("Car with type " + this.type + " is not available!");
@@ -46,6 +42,10 @@ public abstract class Car {
         }
 
         System.out.println("Cannot release car!");
+    }
+
+    public void setCarRental(CarRental carRental) {
+        this.carRental = carRental;
     }
 
     protected CarType getType() {

@@ -1,4 +1,4 @@
-package pl.edu.wsiz.bridge;
+package pl.edu.wsiz.architecture;
 
 import org.apache.commons.lang3.ObjectUtils;
 import pl.edu.wsiz.util.Discount;
@@ -18,7 +18,7 @@ public abstract class CarRental {
     protected Long numberOfDays;
     protected Boolean carRentalActive = false;
 
-    protected CarRental(LocalDate endRental, User user, String optionalDiscountCode) {
+    CarRental(LocalDate endRental, User user, String optionalDiscountCode) {
         validateCarRental(endRental, user);
         this.endRental = endRental;
         this.user = user;
@@ -26,7 +26,7 @@ public abstract class CarRental {
     }
 
     protected void rent(Double carPrice) {
-        System.out.println("Start " + type.getType() + " process rental...");
+        System.out.println("Start " + type + " process rental...");
         carRentalActive = true;
 
         resolveNumberOfDays(endRental);
@@ -53,9 +53,11 @@ public abstract class CarRental {
         System.out.println("Rental is not active!");
     }
 
-    private Double calculateDiscount(String... optionalRabatCode) {
-        if (optionalRabatCode != null && optionalRabatCode.length > 0 && optionalRabatCode[0] != null) {
-            return Discount.getDiscountByDiscountCode(optionalRabatCode[0]);
+    protected abstract Double resolvePriceWithConverter(Double carPricePerDay);
+
+    private Double calculateDiscount(String optionalDiscountCode) {
+        if (optionalDiscountCode != null) {
+            return Discount.getDiscountByDiscountCode(optionalDiscountCode);
         }
         return 1.0;
     }
@@ -71,13 +73,11 @@ public abstract class CarRental {
         }
     }
 
-    protected void resolveNumberOfDays(LocalDate endRental) {
+    private void resolveNumberOfDays(LocalDate endRental) {
         long numberOfDays = ChronoUnit.DAYS.between(LocalDate.now(), endRental);
         if (numberOfDays <= 0) {
             numberOfDays++;
         }
         this.numberOfDays = numberOfDays;
     }
-
-    protected abstract Double resolvePriceWithConverter(Double carPricePerDay);
 }

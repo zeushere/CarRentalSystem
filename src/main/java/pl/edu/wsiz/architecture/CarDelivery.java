@@ -1,10 +1,10 @@
-package pl.edu.wsiz.bridge;
+package pl.edu.wsiz.architecture;
 
 public class CarDelivery extends Car {
 
     public CarDelivery(String brand, String model, Integer year, Double pricePerDay, CarRental carRental) {
         super(brand, model, year, pricePerDay, carRental);
-        type = CarType.CAR_DELIVERY;
+        type = CarType.DELIVERY;
     }
 
     @Override

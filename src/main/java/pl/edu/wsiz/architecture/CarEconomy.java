@@ -1,10 +1,10 @@
-package pl.edu.wsiz.bridge;
+package pl.edu.wsiz.architecture;
 
 public class CarEconomy extends Car {
 
     public CarEconomy(String brand, String model, Integer year, Double pricePerDay, CarRental carRental) {
         super(brand, model, year, pricePerDay, carRental);
-        type = CarType.CAR_ECONOMY;
+        type = CarType.ECONOMY;
     }
 
     @Override

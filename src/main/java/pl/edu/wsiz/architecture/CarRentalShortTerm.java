@@ -1,4 +1,4 @@
-package pl.edu.wsiz.bridge;
+package pl.edu.wsiz.architecture;
 
 import pl.edu.wsiz.util.User;
 
@@ -6,10 +6,10 @@ import java.time.LocalDate;
 
 public class CarRentalShortTerm extends CarRental {
 
-    public CarRentalShortTerm(LocalDate endRental, User user, String optionalDiscountCode) {
+    CarRentalShortTerm(LocalDate endRental, User user, String optionalDiscountCode) {
         super(endRental, user, optionalDiscountCode);
 
-        this.type = CarRentalType.CAR_RENTAL_SHORT_TERM;
+        this.type = CarRentalType.SHORT_TERM;
     }
 
     @Override
